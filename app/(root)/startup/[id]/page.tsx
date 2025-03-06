@@ -5,7 +5,6 @@ import {
   STARTUP_BY_ID_QUERY,
 } from "@/sanity/lib/queries";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -39,7 +38,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
       </section>
 
       <section className="section_container flex flex-col justify-center items-center">
-        <img
+        <Image
           src={post.image || ""}
           alt="thumbnail"
           className="w-auto !max-h-[500px] rounded-xl"

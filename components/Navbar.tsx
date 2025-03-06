@@ -1,8 +1,7 @@
 import { auth } from "@/auth";
 import { BadgePlus, LogOut, User } from "lucide-react";
-import { signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LoginButton from "./LoginButton";

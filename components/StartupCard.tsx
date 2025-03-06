@@ -1,7 +1,6 @@
 import { cn, formatDate } from "@/lib/utils";
 import { EyeIcon } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
 import { Author, Startup } from "@/sanity/types";
@@ -55,7 +54,11 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
 
       <LoadingLink href={`/startup/${_id}`}>
         <p className="start-card_desc">{description}</p>
-        <img src={image} alt="placeholder" className="startup-card_img mt-3" />
+        <Image
+          src={image || "https://placehold.co/48x48"}
+          alt="placeholder"
+          className="startup-card_img mt-3"
+        />
       </LoadingLink>
       <div className="flex-between gap-3 mt-5">
         <LoadingLink href={`/?query=${category?.toLowerCase()}`}>

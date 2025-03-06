@@ -8,7 +8,7 @@ import { createContext, useContext } from "react";
 // Create a Context to share loading state
 const LoadingContext = createContext({
   isLoading: false,
-  setLoading: (loading: boolean) => {},
+  setLoading: (_: boolean) => {}, // Changed parameter name to underscore to indicate it's unused
 });
 
 // Loading Provider to wrap the app
@@ -21,7 +21,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
       const timeout = setTimeout(() => setLoading(false), 1000); // Smooth transition
       return () => clearTimeout(timeout);
     }
-  }, [pathname]);
+  }, [pathname, isLoading]); // Added isLoading to dependency array
 
   return (
     <LoadingContext.Provider value={{ isLoading, setLoading }}>
