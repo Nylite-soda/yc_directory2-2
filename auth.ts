@@ -1,10 +1,9 @@
-import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 import { client } from "./sanity/lib/client";
 import { AUTHOR_BY_GOOGLE_ID_QUERY } from "./sanity/lib/queries";
 import { writeClient } from "./sanity/lib/write-client";
 import { generateUsername } from "./lib/utils";
-
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -13,6 +12,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
+
+  secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
     async signIn({ user, account, profile }) {
@@ -64,4 +65,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   //   debug: true, // Optional: helps with debugging
-})
+});
