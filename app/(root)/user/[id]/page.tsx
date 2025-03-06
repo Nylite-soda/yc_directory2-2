@@ -34,7 +34,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             className="profile_image"
           />
 
-          <p className="text-30-extrabold !text-blue-500 mt-7 text-center">
+          <p className="text-30-extrabold !text-blue-500 mt-7 text-center line-clamp-1">
             @{user?.username}
           </p>
           <p className="mt-1 text-14-normal">{user.bio}</p>

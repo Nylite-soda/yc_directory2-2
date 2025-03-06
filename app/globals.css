@@ -22,15 +22,15 @@
   }
 
   .text-30-extrabold {
-    @apply text-[30px] font-extrabold text-white;
+    @apply text-[1.875rem] font-extrabold text-white;
   }
 
   .text-30-bold {
-    @apply text-[30px] font-bold text-black;
+    @apply text-[1.875rem] font-bold text-black;
   }
 
   .text-30-semibold {
-    @apply font-semibold text-[30px] text-black;
+    @apply font-semibold text-[1.875rem] text-black;
   }
 
   .text-26-semibold {
@@ -38,7 +38,7 @@
   }
 
   .text-24-black {
-    @apply text-[24px] font-black text-blue-500;
+    @apply text-[1.5rem] font-black text-blue-500;
   }
 
   .text-20-medium {

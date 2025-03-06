@@ -1,4 +1,5 @@
 import { signIn } from "@/auth";
+import { LogIn } from "lucide-react";
 
 export default function SignIn() {
   return (
@@ -9,7 +10,8 @@ export default function SignIn() {
       }}
     >
       <button type="submit" className="button">
-        SignIn with Google
+        <span className="max-sm:hidden">Sign In</span>
+        <LogIn className="size-6 sm:hidden" />
       </button>
     </form>
   );
