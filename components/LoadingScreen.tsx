@@ -18,7 +18,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isLoading) {
-      const timeout = setTimeout(() => setLoading(false), 1000); // Smooth transition
+      const timeout = setTimeout(() => setLoading(false), 3000); // Smooth transition
       return () => clearTimeout(timeout);
     }
   }, [pathname, isLoading]); // Added isLoading to dependency array

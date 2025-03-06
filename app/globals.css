@@ -42,7 +42,7 @@
   }
 
   .text-20-medium {
-    @apply font-medium text-[20px] text-black;
+    @apply font-medium text-[20px] text-blue-500;
   }
 
   .text-16-medium {

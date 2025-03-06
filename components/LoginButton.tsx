@@ -11,7 +11,7 @@ export default function SignIn() {
     >
       <button type="submit" className="button">
         <span className="max-sm:hidden">Sign In</span>
-        <LogIn className="size-6 sm:hidden" />
+        <LogIn className="size-7 sm:hidden" />
       </button>
     </form>
   );
