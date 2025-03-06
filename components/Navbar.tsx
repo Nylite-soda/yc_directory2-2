@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 import LoadingLink from "./LoadingLink";
 
 const Navbar = async () => {
@@ -25,21 +26,9 @@ const Navbar = async () => {
                 <BadgePlus className="size-6 sm:hidden" />
               </LoadingLink>
 
-              <form
-                className="flex items-center justify-center"
-                action={async () => {
-                  "use server";
+              <LogoutButton />
 
-                  await signOut({ callbackUrl: "/" });
-                }}
-              >
-                <button type="submit">
-                  <span className="max-sm:hidden">Logout</span>
-                </button>
-                <LogOut className="size-6 sm:hidden text-red-500" />
-              </form>
-
-              <LoadingLink href={`/user/${session?.id}`}>
+              <LoadingLink href={`/user/${session?.user?.id}`}>
                 <Avatar className="size-10">
                   <AvatarImage
                     src={session?.user?.image || ""}

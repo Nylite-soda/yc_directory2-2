@@ -1,15 +1,15 @@
-import { signIn } from "@/auth";
+import { signOut } from "@/auth";
 
-export default function SignIn() {
+export default function SignOut() {
   return (
     <form
       action={async () => {
         "use server";
-        await signIn("google");
+        await signOut();
       }}
     >
       <button type="submit" className="button">
-        SignIn with Google
+        Log Out
       </button>
     </form>
   );
