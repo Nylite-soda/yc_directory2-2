@@ -1,0 +1,339 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@100..900&display=swap");
+
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+@theme {
+  --color-regal-blue: #243c5a;
+  --color-blue-500: #0a1f44;
+}
+
+@layer utilities {
+  .button {
+    @apply bg-blue-500 text-white  hover:bg-blue-100 px-7 py-3 hover:text-blue-500 rounded-full hover:cursor-pointer;
+  }
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+
+  .text-30-extrabold {
+    @apply text-[30px] font-extrabold text-white;
+  }
+
+  .text-30-bold {
+    @apply text-[30px] font-bold text-black;
+  }
+
+  .text-30-semibold {
+    @apply font-semibold text-[30px] text-black;
+  }
+
+  .text-26-semibold {
+    @apply font-semibold text-[26px] text-black;
+  }
+
+  .text-24-black {
+    @apply text-[24px] font-black text-blue-500;
+  }
+
+  .text-20-medium {
+    @apply font-medium text-[20px] text-black;
+  }
+
+  .text-16-medium {
+    @apply font-medium text-[16px] text-black;
+  }
+
+  .text-14-normal {
+    @apply font-normal text-sm text-white/80;
+  }
+
+  .pink_container {
+    @apply w-full bg-blue-100 min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-6;
+  }
+
+  .tag {
+    @apply bg-green-500 px-6 py-3 font-bold rounded-sm uppercase relative tag-tri;
+  }
+
+  .heading {
+    @apply uppercase bg-blue-500 px-10 py-10 font-extrabold text-white sm:text-[54px] sm:leading-[64px] text-[36px] leading-[46px] max-w-5xl text-center my-5;
+  }
+
+  .sub-heading {
+    @apply font-medium text-[20px] text-black max-w-2xl text-center break-words;
+  }
+
+  .section_container {
+    @apply px-6 py-10 max-w-7xl mx-auto;
+  }
+
+  .card_grid {
+    @apply grid md:grid-cols-3 sm:grid-cols-2 gap-5;
+  }
+
+  .card_grid-sm {
+    @apply grid sm:grid-cols-2 gap-5;
+  }
+
+  .no-result {
+    @apply text-black text-sm font-normal;
+  }
+
+  /* profile */
+  .profile_container {
+    @apply w-full pb-10 pt-20 px-6 max-w-7xl mx-auto lg:flex-row flex-col flex gap-10;
+  }
+
+  .profile_card {
+    @apply w-80 px-6 pb-6 pt-20 flex flex-col justify-center items-center bg-blue-100 border-[5px] border-black shadow-lg rounded-[30px] relative z-0 h-fit max-lg:w-full;
+  }
+
+  .profile_title {
+    @apply w-11/12 bg-white border-[5px] border-black rounded-[20px] px-5 py-3 absolute -top-9 after:absolute after:content-[''] after:-top-1 after:right-0 after:-skew-y-6 after:bg-black after:-z-[1] after:rounded-[20px] after:w-full after:h-[60px] before:absolute before:content-[''] before:-bottom-1 before:left-0  before:-skew-y-6 before:w-full before:h-[60px] before:bg-black  before:-z-[1] before:rounded-[20px] shadow-lg;
+  }
+
+  .profile_image {
+    @apply rounded-full object-cover border-[3px] border-black;
+  }
+
+  /* idea details */
+  .divider {
+    @apply border-dotted bg-zinc-400 max-w-4xl my-10 mx-auto;
+  }
+
+  .view_skeleton {
+    @apply bg-zinc-400 h-10 w-24 rounded-lg fixed bottom-3 right-3;
+  }
+
+  /* navbar */
+  .avatar {
+    @apply p-0 focus-visible:ring-0 bg-none rounded-full drop-shadow-md;
+  }
+
+  .dropdown-menu {
+    @apply w-56 border-[5px] border-black bg-white p-5 rounded-2xl;
+  }
+
+  .login {
+    @apply border-[5px] py-4 border-black bg-white text-black relative shadow-lg font-medium hover:shadow-none transition-all duration-500;
+  }
+
+  /* searchform */
+  .search-form {
+    @apply max-w-3xl w-full min-h-[80px] bg-white border-[5px] border-black rounded-[80px] text-[24px] mt-8 px-5 flex flex-row items-center gap-5;
+  }
+
+  .search-input {
+    @apply flex-1 font-bold placeholder:font-semibold placeholder:text-black w-full h-auto outline-none;
+  }
+
+  .search-btn {
+    @apply size-[50px] rounded-full bg-black flex justify-center items-center;
+  }
+
+  /* startupcard */
+  .startup-card {
+    @apply bg-white hover:border-[3px] border-[1px] border-black py-6 px-5 rounded-[22px] shadow-lg transition-all duration-100 hover:shadow-lg hover:bg-blue-100;
+  }
+
+  .startup-card_date {
+    @apply font-medium text-[16px] bg-blue-100 px-4 py-2 rounded-full group-hover:bg-white;
+  }
+
+  .startup-card_desc {
+    @apply font-normal text-[16px] line-clamp-2 my-3 text-black break-all;
+  }
+
+  .startup-card_img {
+    @apply w-full h-[164px] rounded-[10px] object-cover;
+  }
+
+  .startup-card_btn {
+    @apply rounded-full bg-black font-medium text-[16px] text-white px-5 py-3;
+  }
+
+  .startup-card_skeleton {
+    @apply w-full h-96 rounded-[22px] bg-zinc-400;
+  }
+
+  /* startupform */
+  .startup-form {
+    @apply max-w-2xl mx-auto bg-white my-10 space-y-8 px-6;
+  }
+
+  .startup-form_label {
+    @apply font-bold text-[18px] text-black uppercase;
+  }
+
+  .startup-form_input {
+    @apply border-[3px] border-black px-5 py-7 text-[18px] text-black font-semibold rounded-full mt-3 placeholder:text-black;
+  }
+
+  .startup-form_textarea {
+    @apply border-[3px] border-black p-5 text-[18px] text-black font-semibold rounded-[20px] mt-3 placeholder:text-black;
+  }
+
+  .startup-form_error {
+    @apply text-red-500 mt-2 ml-5;
+  }
+
+  .startup-form_editor {
+    @apply mt-3 border-[3px] border-black text-[18px] text-black font-semibold placeholder:text-black;
+  }
+
+  .startup-form_btn {
+    @apply bg-blue-100 border-[4px] border-black rounded-full p-5 min-h-[70px] w-full font-bold text-[18px];
+  }
+
+  /* view */
+  .view-container {
+    @apply flex justify-end items-center mt-5 fixed bottom-3 right-3;
+  }
+
+  .view-text {
+    @apply font-medium text-[16px] bg-blue-100 px-4 py-2 rounded-lg capitalize;
+  }
+
+  .category-tag {
+    @apply font-medium text-[16px] bg-blue-100 px-4 py-2 rounded-full;
+  }
+}
+
+@utility tag-tri {
+  @apply before:content-[''] before:absolute before:top-2 before:left-2 before:border-t-[10px] before:border-t-black before:border-r-[10px] before:border-r-transparent after:content-[''] after:absolute after:bottom-2 after:right-2 after:border-b-[10px] after:border-b-black after:border-l-[10px] after:border-l-transparent;
+}
+
+@utility pattern {
+  background-image: linear-gradient(
+    to right,
+    transparent 49.5%,
+    rgba(251, 232, 67, 0.2) 49.5%,
+    rgba(251, 232, 67, 0.6) 50.5%,
+    transparent 50.5%
+  );
+  background-size: 5% 100%;
+  background-position: center;
+  background-repeat: repeat-x;
+}
+
+.w-md-editor-toolbar {
+  padding: 10px;
+}
+
+/* General Markdown Styling */
+.prose {
+  max-width: 100%;
+  padding: 3rem 3rem;
+  background-color: #faf8f8;
+  color: #222; /* Dark grayish-black for text */
+  border: 5px;
+}
+
+/* Headings */
+.prose h1 {
+  font-size: 2rem;
+  font-weight: 700 !important;
+  margin-bottom: 1rem;
+  color: #111; /* Rich black */
+}
+
+.prose h2 {
+  font-size: 1.3rem;
+  font-weight: 600 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.75rem;
+  color: #222; /* Dark grayish-black */
+  border-bottom: 1px solid #333; /* Subtle divider */
+  padding-bottom: 0.4rem;
+}
+
+.prose h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333; /* Slightly lighter than h2 */
+}
+
+/* Paragraphs */
+.prose p {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 2.5rem !important;
+  color: #222; /* Keeps text readable and smooth */
+}
+
+/* Lists */
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 2.5rem !important;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+/* Emphasis */
+.prose strong {
+  font-weight: 600;
+  color: #111; /* Stands out subtly */
+}
+
+.prose em {
+  font-style: italic;
+  color: #444; /* Slight gray tone for variation */
+}
+
+/* Blockquotes */
+.prose blockquote {
+  border-left: 4px solid #444;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #333;
+  margin: 1rem 0;
+}
+
+/* Code Blocks */
+.prose pre {
+  background: #181818; /* Deep black for code */
+  color: #f5f5f5; /* Light grayish-white */
+  padding: 1rem;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.prose code {
+  background: #282828; /* Darker gray */
+  color: #eaeaea; /* Soft white */
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+/* Links */
+.prose a {
+  color: #0056b3; /* Deep blue for professionalism */
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.prose a:hover {
+  color: #003366; /* Even deeper blue on hover */
+}
+
+/* Spacing Between Sections */
+.prose > *:not(:last-child) {
+  margin-bottom: 1.2rem;
+}
