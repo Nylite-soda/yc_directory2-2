@@ -28,7 +28,7 @@ const Navbar = async () => {
 
               <LogoutButton />
 
-              <LoadingLink href={`/user/${session?.user?.id}`}>
+              <LoadingLink href={`/user/${session?.id}`}>
                 <Avatar className="size-10">
                   <AvatarImage
                     src={session?.user?.image || ""}
