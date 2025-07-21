@@ -1,6 +1,8 @@
 import StartupForm from "@/components/StartupForm";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Page = async () => {
   const session = await auth();
@@ -13,7 +15,9 @@ const Page = async () => {
         <h1 className="heading">Submit Your Startup</h1>
       </section>
 
-      <StartupForm />
+      <Suspense fallback={<Skeleton className="w-full h-[500px]" />}>
+        <StartupForm type="create" />
+      </Suspense>
     </>
   );
 };

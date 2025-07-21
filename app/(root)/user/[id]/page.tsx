@@ -1,10 +1,13 @@
 import { auth } from "@/auth";
+import LoadingLink from "@/components/LoadingLink";
 import { StartupCardSkeleton } from "@/components/StartupCard";
+import { Button } from "@/components/ui/button";
 import EmptyState from "@/components/ui/EmptyState";
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
 import UserStartups from "@/components/UserStartups";
 import { client } from "@/sanity/lib/client";
 import { AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
+import { PencilIcon } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
@@ -60,9 +63,19 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
           </div>
           <div className="flex-1 flex flex-col gap-5 lg:-mt-5">
-            <p className="text-30-bold !text-blue-500">
-              {session.id == id ? "Your" : "All"} Startups
-            </p>
+            <div className="flex-between">
+              <p className="text-30-bold !text-blue-500">
+                {session?.id === id ? "Your" : `${user.name}'s`} Startups
+              </p>
+              {session?.id === id && (
+                <Button asChild>
+                  <LoadingLink href={`/user/${id}/edit`}>
+                    <PencilIcon className="size-4 mr-2" />
+                    Edit Profile
+                  </LoadingLink>
+                </Button>
+              )}
+            </div>
             <ul className="card_grid-sm">
               <Suspense
                 fallback={

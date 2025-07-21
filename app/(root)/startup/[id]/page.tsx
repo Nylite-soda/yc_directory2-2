@@ -1,5 +1,6 @@
-import { formatDate } from "@/lib/utils";
-import { client } from "@/sanity/lib/client";
+import { auth } from "@/auth";
+import { Button } from "@/components/ui/button";
+import { PencilIcon } from "lucide-react";
 import {
   PLAYLIST_BY_SLUG_QUERY,
   STARTUP_BY_ID_QUERY,
@@ -15,11 +16,14 @@ import remarkGfm from "remark-gfm";
 import LoadingLink from "@/components/LoadingLink";
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
 import EmptyState from "@/components/ui/EmptyState";
+import { client } from "@/sanity/lib/client";
+import { formatDate } from "@/lib/utils";
 
 export const experimental_ppr = true;
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
+  const session = await auth();
 
   try {
     const [post, playlist] = await Promise.all([
@@ -86,8 +90,17 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
               </LoadingLink>
               <p className="category-tag">{post.category}</p>
             </div>
-
-            <h3 className="text-30-bold">Pitch Details</h3>
+            <div className="flex-between">
+              <h3 className="text-30-bold">Pitch Details</h3>
+              {session?.id === post.author?._id && (
+                <Button asChild>
+                  <LoadingLink href={`/startup/${id}/edit`}>
+                    <PencilIcon className="size-4 mr-2" />
+                    Edit Pitch
+                  </LoadingLink>
+                </Button>
+              )}
+            </div>
             {post.pitch ? (
               <div className="prose prose-lg mx-auto max-w-3xl p6">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>

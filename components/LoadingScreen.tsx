@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
 import { createContext, useContext } from "react";
@@ -13,6 +13,18 @@ const LoadingContext = createContext({
 
 // Loading Provider to wrap the app
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <LoadingProviderContent>{children}</LoadingProviderContent>
+    </Suspense>
+  );
+}
+
+function LoadingProviderContent({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [isLoading, setLoading] = useState(false);
   const pathname = usePathname();
   const searchParams = useSearchParams();

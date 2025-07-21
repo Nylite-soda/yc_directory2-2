@@ -4,50 +4,59 @@ import React, { useState, useActionState, useEffect } from "react";
 import { Textarea } from "./ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "./ui/button";
-import { Send } from "lucide-react";
+import { Save, Send } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { createPitch } from "@/lib/actions";
-
+import { createPitch, updatePitch } from "@/lib/actions";
 import { FormState } from "@/lib/types";
+import { Startup } from "@/sanity/types";
 
-const StartupForm = () => {
+type StartupFormProps =
+  | { type: "create" }
+  | { type: "edit"; startup: Startup };
+
+const StartupForm = (props: StartupFormProps) => {
   const router = useRouter();
+  const { type } = props;
+  const startup = props.type === "edit" ? props.startup : undefined;
 
   const initialState: FormState = {
     status: "INITIAL",
     error: "",
     errors: null,
   };
-  const [state, formAction, isPending] = useActionState(
-    createPitch,
-    initialState
-  );
 
-  // Use a hidden input for the pitch to include it in formData
-  const [pitch, setPitch] = useState("");
+  const action = type === "create" ? createPitch : updatePitch;
+  const [state, formAction, isPending] = useActionState(action, initialState);
+
+  const [pitch, setPitch] = useState(startup?.pitch || "");
 
   useEffect(() => {
     if (state.status === "SUCCESS") {
+      const successMessage =
+        type === "create"
+          ? "Your startup pitch has been created successfully"
+          : "Your startup pitch has been updated successfully";
       toast.success("SUCCESS", {
-        description: "Your startup pitch has been created successfully",
+        description: successMessage,
         duration: 5000,
       });
-      router.push(`/startup/${state._id}`);
+      router.push(`/startup/${startup?._id || state._id}`);
     } else if (state.status === "ERROR" && state.error && !state.errors) {
-      // This handles general errors (not field-specific)
       toast.error("Error", {
         description: state.error,
         duration: 5000,
       });
     }
-  }, [state, router]);
+  }, [state, router, type, startup?._id]);
 
   return (
     <>
       <form className="startup-form" action={formAction}>
-        {/* Hidden input for pitch */}
         <input type="hidden" name="pitch" value={pitch} />
+        {type === "edit" && startup && (
+          <input type="hidden" name="id" value={startup._id} />
+        )}
 
         <div>
           <label htmlFor="title" className="startup-form_label">
@@ -58,6 +67,7 @@ const StartupForm = () => {
             name="title"
             className="startup-form_input"
             required
+            defaultValue={startup?.title}
             placeholder="Startup Title"
           />
           {state.errors?.title && (
@@ -74,6 +84,7 @@ const StartupForm = () => {
             name="description"
             className="startup-form_textarea"
             required
+            defaultValue={startup?.description}
             placeholder="Startup Description"
           />
           {state.errors?.description && (
@@ -90,6 +101,7 @@ const StartupForm = () => {
             name="category"
             className="startup-form_input"
             required
+            defaultValue={startup?.category}
             placeholder="Startup Category (Tech, Health, Education...)"
           />
           {state.errors?.category && (
@@ -106,6 +118,7 @@ const StartupForm = () => {
             name="link"
             className="startup-form_input"
             required
+            defaultValue={startup?.image}
             placeholder="Startup Image URL"
           />
           {state.errors?.link && (
@@ -138,8 +151,18 @@ const StartupForm = () => {
         </div>
 
         <Button type="submit" className="startup-form_btn" disabled={isPending}>
-          {isPending ? "Submitting..." : "Submit your pitch"}
-          <Send className="size-6 ml-2" />
+          {isPending
+            ? type === "create"
+              ? "Submitting..."
+              : "Saving..."
+            : type === "create"
+            ? "Submit your pitch"
+            : "Save Changes"}
+          {type === "create" ? (
+            <Send className="size-6 ml-2" />
+          ) : (
+            <Save className="size-6 ml-2" />
+          )}
         </Button>
       </form>
     </>
