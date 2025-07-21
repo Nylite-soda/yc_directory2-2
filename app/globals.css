@@ -8,11 +8,6 @@
   }
 }
 
-@theme {
-  --color-regal-blue: #243c5a;
-  --color-blue-500: #0a1f44;
-}
-
 @layer utilities {
   .button {
     @apply bg-blue-500 text-white  hover:bg-blue-100 px-7 py-3 hover:text-blue-500 rounded-full hover:cursor-pointer;
@@ -34,7 +29,7 @@
   }
 
   .text-26-semibold {
-    @apply font-semibold text-[26px] text-black;
+    @apply font-semibold text-[20px] sm:text-[26px] text-black;
   }
 
   .text-24-black {
@@ -54,7 +49,7 @@
   }
 
   .pink_container {
-    @apply w-full bg-blue-100 min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-6;
+    @apply w-full bg-blue-100 min-h-[400px] md:min-h-[530px] pattern flex justify-center items-center flex-col py-10 px-4 sm:px-6;
   }
 
   .tag {
@@ -62,7 +57,7 @@
   }
 
   .heading {
-    @apply uppercase bg-blue-500 px-10 py-10 font-extrabold text-white sm:text-[54px] sm:leading-[64px] text-[36px] leading-[46px] max-w-5xl text-center my-5;
+    @apply uppercase bg-blue-950 px-6 sm:px-10 py-8 sm:py-10 font-extrabold text-white text-[32px] leading-[42px] sm:text-[48px] sm:leading-[58px] md:text-[54px] md:leading-[64px] max-w-5xl text-center my-5;
   }
 
   .sub-heading {
@@ -70,15 +65,15 @@
   }
 
   .section_container {
-    @apply px-6 py-10 max-w-7xl mx-auto;
+    @apply px-6 py-10 max-w-7xl mx-auto overflow-hidden;
   }
 
   .card_grid {
-    @apply grid md:grid-cols-3 sm:grid-cols-2 gap-5;
+    @apply grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5 w-full;
   }
 
   .card_grid-sm {
-    @apply grid sm:grid-cols-2 gap-5;
+    @apply grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5 w-full;
   }
 
   .no-result {
@@ -91,7 +86,7 @@
   }
 
   .profile_card {
-    @apply w-80 px-6 pb-6 pt-20 flex flex-col justify-center items-center bg-blue-100 border-[5px] border-black shadow-lg rounded-[30px] relative z-0 h-fit max-lg:w-full;
+    @apply w-full max-w-sm px-6 pb-6 pt-20 flex flex-col justify-center items-center bg-blue-100 border-[5px] border-black shadow-lg rounded-[30px] relative z-0 h-fit;
   }
 
   .profile_title {
@@ -126,7 +121,7 @@
 
   /* searchform */
   .search-form {
-    @apply max-w-3xl w-full min-h-[80px] bg-white border-[5px] border-black rounded-[80px] text-[24px] mt-8 px-5 flex flex-row items-center gap-5;
+    @apply max-w-3xl w-full min-h-[60px] sm:min-h-[80px] bg-white border-[5px] border-black rounded-[60px] sm:rounded-[80px] text-[18px] sm:text-[24px] mt-8 px-5 flex flex-row items-center gap-5;
   }
 
   .search-input {
@@ -139,7 +134,7 @@
 
   /* startupcard */
   .startup-card {
-    @apply bg-white hover:border-[3px] border-[1px] border-black py-6 px-5 rounded-[22px] shadow-lg transition-all duration-100 hover:shadow-lg hover:bg-blue-100;
+    @apply bg-white hover:border-[3px] border-[1px] border-black py-6 px-5 rounded-[22px] shadow-lg transition-all duration-100 hover:shadow-lg hover:bg-blue-100 min-w-0;
   }
 
   .startup-card_date {
@@ -172,11 +167,11 @@
   }
 
   .startup-form_input {
-    @apply border-[3px] border-black px-5 py-7 text-[18px] text-black font-semibold rounded-full mt-3 placeholder:text-black;
+    @apply border-[3px] border-black px-5 py-4 sm:py-7 text-[16px] sm:text-[18px] text-black font-semibold rounded-full mt-3 placeholder:text-black;
   }
 
   .startup-form_textarea {
-    @apply border-[3px] border-black p-5 text-[18px] text-black font-semibold rounded-[20px] mt-3 placeholder:text-black;
+    @apply border-[3px] border-black p-4 sm:p-5 text-[16px] sm:text-[18px] text-black font-semibold rounded-[20px] mt-3 placeholder:text-black;
   }
 
   .startup-form_error {
@@ -228,11 +223,7 @@
 
 /* General Markdown Styling */
 .prose {
-  max-width: 100%;
-  padding: 3rem 3rem;
-  background-color: #faf8f8;
-  color: #222; /* Dark grayish-black for text */
-  border: 5px;
+  @apply max-w-full bg-[#faf8f8] text-[#222] border-5 p-6 sm:p-8 md:p-12;
 }
 
 /* Headings */

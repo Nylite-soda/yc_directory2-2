@@ -8,7 +8,8 @@ module.exports = {
         'black-100': '#1a1a1a',
         'blue-100': '#bfdbfe',
         'black-200': '#111827',
-        "blue-500": "#0A1F44"
+        "blue-500": "#0A1F44",
+        "regal-blue": "#243c5a",
       },
       boxShadow: {
         'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',

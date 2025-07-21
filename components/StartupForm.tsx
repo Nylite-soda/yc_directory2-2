@@ -1,82 +1,60 @@
 "use client";
 import { Input } from "./ui/input";
-import React, { useState, useActionState } from "react";
+import React, { useState, useActionState, useEffect } from "react";
 import { Textarea } from "./ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "./ui/button";
 import { Send } from "lucide-react";
-import { formSchema } from "@/lib/validation";
-import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { createPitch } from "@/lib/actions";
 
+import { FormState } from "@/lib/types";
+
+// ... other imports
+
 const StartupForm = () => {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [pitch, setPitch] = useState("");
   const router = useRouter();
 
-  const handleFormSubmit = async (prevState: any, formData: FormData) => {
-    try {
-      const formValues = {
-        title: formData.get("title") as string,
-        description: formData.get("description") as string,
-        category: formData.get("category") as string,
-        link: formData.get("link") as string,
-        pitch,
-      };
+  const initialState: FormState = {
+    status: "INITIAL",
+    error: "",
+    errors: null,
+  };
+  const [state, formAction, isPending] = useActionState(
+    createPitch,
+    initialState
+  );
 
-      await formSchema.parseAsync(formValues);
+  // Use a hidden input for the pitch to include it in formData
+  const [pitch, setPitch] = useState("");
 
-      const result = await createPitch(prevState, formData, pitch);
-
-      if (result.status == "SUCCESS") {
-        toast.success("SUCCESS", {
-          description: "Your startup pitch has been created successfully",
-          duration: 5000,
-        });
-
-        router.push(`/startup/${result._id}`);
-      }
-      return result;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const fieldErrors = error.flatten().fieldErrors;
-
-        setErrors(fieldErrors as unknown as Record<string, string>);
-
-        toast.error("Error", {
-          description: "Please check your inputs and try again",
-          duration: 5000,
-        });
-
-        return { ...prevState, error: "Validation failed", status: "INITIAL" };
-      }
-
-      toast.error("Error", {
-        description: "An unexpected error has occured!",
+  useEffect(() => {
+    if (state.status === "SUCCESS") {
+      toast.success("SUCCESS", {
+        description: "Your startup pitch has been created successfully",
         duration: 5000,
       });
-
-      return {
-        ...prevState,
-        error: "An unexpected error has occured!",
-        status: "ERROR",
-      };
+      router.push(`/startup/${state._id}`);
+    } else if (state.status === "ERROR" && state.error && !state.errors) {
+      // This handles general errors (not field-specific)
+      toast.error("Error", {
+        description: state.error,
+        duration: 5000,
+      });
     }
-  };
-
-  const [state, formAction, isPending] = useActionState(handleFormSubmit, {
-    error: "",
-    status: "INITIAL",
-  });
+  }, [state, router]);
+// ... rest of the component
 
   return (
     <>
       <form className="startup-form" action={formAction}>
+        {/* Hidden input for pitch */}
+        <input type="hidden" name="pitch" value={pitch} />
+
         <div>
           <label htmlFor="title" className="startup-form_label">
-            Title
+            Title *
           </label>
           <Input
             id="title"
@@ -85,12 +63,14 @@ const StartupForm = () => {
             required
             placeholder="Startup Title"
           />
-          {errors.title && <p className="startup-form_error">{errors.title}</p>}
+          {state.errors?.title && (
+            <p className="startup-form_error">{state.errors.title[0]}</p>
+          )}
         </div>
 
         <div>
           <label htmlFor="description" className="startup-form_label">
-            Description
+            Description *
           </label>
           <Textarea
             id="description"
@@ -99,14 +79,14 @@ const StartupForm = () => {
             required
             placeholder="Startup Description"
           />
-          {errors.description && (
-            <p className="startup-form_error">{errors.description}</p>
+          {state.errors?.description && (
+            <p className="startup-form_error">{state.errors.description[0]}</p>
           )}
         </div>
 
         <div>
           <label htmlFor="category" className="startup-form_label">
-            Category
+            Category *
           </label>
           <Input
             id="category"
@@ -115,14 +95,14 @@ const StartupForm = () => {
             required
             placeholder="Startup Category (Tech, Health, Education...)"
           />
-          {errors.category && (
-            <p className="startup-form_error">{errors.category}</p>
+          {state.errors?.category && (
+            <p className="startup-form_error">{state.errors.category[0]}</p>
           )}
         </div>
 
         <div>
           <label htmlFor="link" className="startup-form_label">
-            Image URL
+            Image URL *
           </label>
           <Input
             id="link"
@@ -131,17 +111,19 @@ const StartupForm = () => {
             required
             placeholder="Startup Image URL"
           />
-          {errors.link && <p className="startup-form_error">{errors.link}</p>}
+          {state.errors?.link && (
+            <p className="startup-form_error">{state.errors.link[0]}</p>
+          )}
         </div>
 
         <div data-color-mode="light">
-          <label htmlFor="pitch" className="startup-form_label">
-            Pitch
+          <label htmlFor="pitch-editor" className="startup-form_label">
+            Pitch *
           </label>
           <MDEditor
             value={pitch}
-            onChange={(value) => setPitch(value as string)}
-            id="pitch"
+            onChange={(value) => setPitch(value || "")}
+            id="pitch-editor"
             preview="edit"
             height={300}
             style={{ borderRadius: 20, overflow: "hidden" }}
@@ -153,7 +135,9 @@ const StartupForm = () => {
               disallowedElements: ["style"],
             }}
           />
-          {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
+          {state.errors?.pitch && (
+            <p className="startup-form_error">{state.errors.pitch[0]}</p>
+          )}
         </div>
 
         <Button

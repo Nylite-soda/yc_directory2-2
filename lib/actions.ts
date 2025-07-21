@@ -4,34 +4,47 @@ import { auth } from "@/auth";
 import { parseServerActionResponse } from "./utils";
 import slugify from "slugify";
 import { writeClient } from "@/sanity/lib/write-client";
+import { formSchema } from "./validation";
+
+import { FormState } from "./types";
 
 export const createPitch = async (
-  state: Record<string, unknown>,
-  form: FormData,
-  pitch: string
-) => {
+  prevState: FormState,
+  form: FormData
+): Promise<FormState> => {
   const session = await auth();
+  if (!session) {
+    return { status: "ERROR", error: "Not Signed In", errors: null };
+  }
 
-  if (!session)
-    return parseServerActionResponse({
-      error: "Not Signed in",
+  // 1. Get all data from the form
+  const formData = Object.fromEntries(form.entries());
+
+  // 2. Validate the data using the Zod schema
+  const validatedFields = await formSchema.safeParseAsync(formData);
+
+  // 3. If validation fails, return the errors
+  if (!validatedFields.success) {
+    return {
       status: "ERROR",
-    });
+      error: "Invalid input.",
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
 
-  const { title, description, category, link } = Object.fromEntries(
-    Array.from(form).filter(([key]) => key !== "pitch")
-  );
-
-  const slug = slugify(title as string, { lower: true, strict: true });
+  // 4. If validation succeeds, proceed to create the document
+  const { title, description, category, link, pitch } = validatedFields.data;
+  const slug = slugify(title, { lower: true, strict: true });
 
   try {
     const startup = {
+      _type: "startup",
       title,
       description,
       category,
       image: link,
       slug: {
-        _type: slug,
+        _type: "slug",
         current: slug,
       },
       author: {
@@ -41,17 +54,20 @@ export const createPitch = async (
       pitch,
     };
 
-    const result = await writeClient.create({ _type: "startup", ...startup });
+    const result = await writeClient.create(startup);
 
-    return parseServerActionResponse({
-      ...result,
-      error: "",
+    return {
       status: "SUCCESS",
-    });
+      error: "",
+      errors: null,
+      _id: result._id,
+    };
   } catch (error) {
-    return parseServerActionResponse({
-      error: JSON.stringify(error),
+    // Handle potential Sanity client errors
+    return {
       status: "ERROR",
-    });
+      error: "Failed to create startup.",
+      errors: null,
+    };
   }
 };
