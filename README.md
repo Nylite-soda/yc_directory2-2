@@ -16,6 +16,9 @@ The application is built with a modern, robust, and scalable tech stack, emphasi
 
 -   **Full Authentication:** Secure user sign-up and login using NextAuth.js, supporting various OAuth providers.
 -   **Startup Submission:** Authenticated users can submit their startup ideas through a rich-text Markdown editor.
+-   **User and Startup Management:**
+    -   **Profile Editing:** Users can edit their public profile, including their name, username, and bio.
+    -   **Pitch Editing:** Users can edit the details of their own startup pitches at any time.
 -   **Dynamic Content:** All startup data is managed through the Sanity.io headless CMS, allowing for easy content updates.
 -   **Advanced Search:** A powerful, case-insensitive, partial-matching search allows users to find startups by title, category, description, or author.
 -   **User Profiles:** Each user has a public profile page displaying their bio and all the startups they have submitted.
@@ -60,7 +63,7 @@ To get a local copy up and running, follow these simple steps.
     ```
 
 3.  **Set up environment variables:**
-    Create a `.env.local` file in the root of your project and add the following variables. You will need to get these from your Sanity project dashboard and your OAuth provider configuration.
+    Create a `.env` file in the root of your project and add the following variables. You will need to get these from your Sanity project dashboard and your OAuth provider configuration.
 
     ```env
     # Sanity
@@ -71,9 +74,9 @@ To get a local copy up and running, follow these simple steps.
     SANITY_API_WRITE_TOKEN="..."
 
     # NextAuth.js
-    AUTH_SECRET="..."
-    AUTH_GOOGLE_ID="..."
-    AUTH_GOOGLE_SECRET="..."
+    NEXTAUTH_SECRET="..."
+    GOOGLE_CLIENT_ID="..."
+    GOOGLE_CLIENT_SECRET="..."
     ```
 
 4.  **Run the development server:**
