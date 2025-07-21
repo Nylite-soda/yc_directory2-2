@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
 import { createContext, useContext } from "react";
 
@@ -15,11 +15,12 @@ const LoadingContext = createContext({
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setLoading] = useState(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Hide loading screen whenever the path changes
+    // Hide loading screen whenever the path or search params change
     setLoading(false);
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   return (
     <LoadingContext.Provider value={{ isLoading, setLoading }}>
