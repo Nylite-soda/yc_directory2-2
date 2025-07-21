@@ -9,11 +9,11 @@ export default async function Home({
 }: {
   searchParams: Promise<{ query?: string }>;
 }) {
-  const query = (await searchParams).query;
-
-  const params = { search: query || null };
-
   try {
+    const query = (await searchParams).query;
+
+    const params = query ? { search: `*${query}*` } : {};
+
     const { data: posts } = await sanityFetch({
       query: STARTUPS_QUERY,
       params,
@@ -29,6 +29,7 @@ export default async function Home({
             Submit Ideas, Vote on Pitches and Get Noticed in Virtual
             Competitions
           </p>
+
           <SearchForm query={query} />
         </section>
 
@@ -36,8 +37,7 @@ export default async function Home({
           <p className="text-30-semibold">
             {query ? `Search results for "${query}"` : "All Startups"}
           </p>
-          import EmptyState from "@/components/ui/EmptyState"; // ... other
-          imports // ... inside Home component
+
           <ul className="mt-7 card_grid">
             {posts?.length ? (
               posts.map((post: StartupTypeCard) => (

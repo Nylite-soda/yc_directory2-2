@@ -23,9 +23,6 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     return (
       <>
         <section className="profile_container">
-          import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
-          import EmptyState from "@/components/ui/EmptyState"; // ... other
-          imports // ... inside page component
           <div className="profile_card">
             <div className="profile_title">
               <h3 className="text-24-black uppercase text-center line-clamp-1">

@@ -11,8 +11,6 @@ import { createPitch } from "@/lib/actions";
 
 import { FormState } from "@/lib/types";
 
-// ... other imports
-
 const StartupForm = () => {
   const router = useRouter();
 
@@ -44,7 +42,6 @@ const StartupForm = () => {
       });
     }
   }, [state, router]);
-// ... rest of the component
 
   return (
     <>
@@ -140,11 +137,7 @@ const StartupForm = () => {
           )}
         </div>
 
-        <Button
-          type="submit"
-          className="startup-form_btn text-white"
-          disabled={isPending}
-        >
+        <Button type="submit" className="startup-form_btn" disabled={isPending}>
           {isPending ? "Submitting..." : "Submit your pitch"}
           <Send className="size-6 ml-2" />
         </Button>
