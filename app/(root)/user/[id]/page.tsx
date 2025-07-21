@@ -26,34 +26,38 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     return (
       <>
         <section className="profile_container">
-          <div className="profile_card">
+          <div className="profile_card bg-white rounded-xl p-8 shadow-sm">
             <div className="profile_title">
-              <h3 className="text-24-black uppercase text-center line-clamp-1">
+              <h3 className="text-24-bold uppercase text-center tracking-wider">
                 {user.name}
               </h3>
             </div>
-            {user.image ? (
-              <Image
-                src={user.image}
-                alt={user.name || "user avatar"}
-                width={220}
-                height={220}
-                className="profile_image"
-              />
-            ) : (
-              <ImagePlaceholder
-                width={220}
-                height={220}
-                className="profile_image"
-              />
-            )}
+            <div className="mt-6 flex justify-center">
+              {user.image ? (
+                <Image
+                  src={user.image}
+                  alt={user.name || "user avatar"}
+                  width={180}
+                  height={180}
+                  className="rounded-full border-4 border-white shadow-md"
+                />
+              ) : (
+                <ImagePlaceholder
+                  width={180}
+                  height={180}
+                  className="rounded-full border-4 border-white shadow-md"
+                />
+              )}
+            </div>
 
-            <p className="text-20-medium !text-blue-500 mt-7 text-center line-clamp-1">
+            <p className="text-20-semibold text-blue-500 mt-6 text-center">
               @{user?.username}
             </p>
-            <div className="mt-2 w-full">
+            <div className="mt-4 w-full bg-gray-50 p-4 rounded-lg">
               {user.bio ? (
-                <p className="text-14-normal text-center">{user.bio}</p>
+                <p className="text-16-regular text-gray-700 text-left">
+                  {user.bio}
+                </p>
               ) : (
                 <EmptyState
                   message="No bio provided."
