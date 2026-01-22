@@ -4,11 +4,9 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 
+export const experimental_ppr = true;
+
 const Page = async () => {
-  const session = await auth();
-
-  if (!session) redirect("/");
-
   return (
     <>
       <section className="pink_container !min-h-[230px]">
@@ -16,10 +14,18 @@ const Page = async () => {
       </section>
 
       <Suspense fallback={<Skeleton className="w-full h-[500px]" />}>
-        <StartupForm type="create" />
+        <StartupFormWrapper />
       </Suspense>
     </>
   );
+};
+
+const StartupFormWrapper = async () => {
+  const session = await auth();
+
+  if (!session) redirect("/");
+
+  return <StartupForm type="create" />;
 };
 
 export default Page;

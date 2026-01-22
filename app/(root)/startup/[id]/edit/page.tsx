@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import StartupForm from "@/components/StartupForm";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/lib/sanityFetch";
 import { STARTUP_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -10,7 +10,7 @@ export const experimental_ppr = true;
 const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
   const session = await auth();
-  const startup = await client.fetch(STARTUP_BY_ID_QUERY, { id });
+  const startup = await sanityFetch<any>(STARTUP_BY_ID_QUERY, { id }, 0);
 
   if (!startup) return notFound();
 

@@ -4,6 +4,8 @@ import "easymde/dist/easymde.min.css";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { LoadingProvider } from "@/components/LoadingScreen";
+import SessionProvider from "@/components/SessionProvider";
+import BackToTop from "@/components/BackToTop";
 
 const workSans = localFont({
   src: [
@@ -72,8 +74,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${workSans.variable} antialiased`}>
-        <LoadingProvider>{children}</LoadingProvider>
-        <Toaster />
+        <SessionProvider>
+          <LoadingProvider>{children}</LoadingProvider>
+          <Toaster />
+          <BackToTop />
+        </SessionProvider>
       </body>
     </html>
   );

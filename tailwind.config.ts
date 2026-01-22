@@ -46,6 +46,7 @@ const config: Config = {
         100: "2px 2px 0px 0px rgb(0, 0, 0)",
         200: "2px 2px 0px 2px rgb(0, 0, 0)",
         300: "2px 2px 0px 2px rgb(238, 43, 105)",
+        form: "4px 4px 0px 0px #000",
       },
     },
   },

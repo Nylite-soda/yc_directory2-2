@@ -11,7 +11,7 @@ const Navbar = async () => {
   const session = await auth();
 
   return (
-    <div className="px-5 py-3 bg-white shadow-sm font-work-sams">
+    <header className="px-5 py-3 bg-white/95 backdrop-blur-sm shadow-sm font-work-sans sticky top-0 z-50 border-b-[3px] border-black transition-all">
       <nav className="flex justify-between items-center">
         <LoadingLink href="/">
           <Image src="/logo.png" alt="logo" width={144} height={30} />

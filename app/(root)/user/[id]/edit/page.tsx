@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import UserEditForm from "@/components/UserEditForm";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/lib/sanityFetch";
 import { AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -22,7 +22,7 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
     );
   }
 
-  const user = await client.fetch(AUTHOR_BY_ID_QUERY, { id });
+  const user = await sanityFetch<any>(AUTHOR_BY_ID_QUERY, { id }, 0);
 
   if (!user) return notFound();
 

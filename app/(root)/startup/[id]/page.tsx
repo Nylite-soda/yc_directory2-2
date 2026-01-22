@@ -1,6 +1,3 @@
-import { auth } from "@/auth";
-import { Button } from "@/components/ui/button";
-import { PencilIcon } from "lucide-react";
 import {
   PLAYLIST_BY_SLUG_QUERY,
   STARTUP_BY_ID_QUERY,
@@ -16,19 +13,20 @@ import remarkGfm from "remark-gfm";
 import LoadingLink from "@/components/LoadingLink";
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
 import EmptyState from "@/components/ui/EmptyState";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/lib/sanityFetch";
 import { formatDate } from "@/lib/utils";
+import EditStartupButton from "@/components/EditStartupButton";
 
+export const revalidate = 86400;
 export const experimental_ppr = true;
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
-  const session = await auth();
 
   try {
     const [post, playlist] = await Promise.all([
-      client.fetch(STARTUP_BY_ID_QUERY, { id }),
-      client.fetch(PLAYLIST_BY_SLUG_QUERY, {
+      sanityFetch<any>(STARTUP_BY_ID_QUERY, { id }),
+      sanityFetch<any>(PLAYLIST_BY_SLUG_QUERY, {
         slug: "editor-picks",
       }),
     ]);
@@ -92,14 +90,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             </div>
             <div className="flex-between">
               <h3 className="text-30-bold">Pitch Details</h3>
-              {session?.id === post.author?._id && (
-                <Button asChild>
-                  <LoadingLink href={`/startup/${id}/edit`}>
-                    <PencilIcon className="size-4 mr-2" />
-                    Edit Pitch
-                  </LoadingLink>
-                </Button>
-              )}
+              <EditStartupButton authorId={post.author?._id} startupId={id} />
             </div>
             {post.pitch ? (
               <div className="prose prose-lg mx-auto max-w-3xl p6">

@@ -1,25 +1,23 @@
-import { auth } from "@/auth";
 import LoadingLink from "@/components/LoadingLink";
 import { StartupCardSkeleton } from "@/components/StartupCard";
-import { Button } from "@/components/ui/button";
 import EmptyState from "@/components/ui/EmptyState";
 import ImagePlaceholder from "@/components/ui/ImagePlaceholder";
 import UserStartups from "@/components/UserStartups";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/lib/sanityFetch";
 import { AUTHOR_BY_ID_QUERY } from "@/sanity/lib/queries";
-import { PencilIcon } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
+import EditUserButton from "@/components/EditUserButton";
 
+export const revalidate = 86400;
 export const experimental_ppr = true;
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
-  const session = await auth();
 
   try {
-    const user = await client.fetch(AUTHOR_BY_ID_QUERY, { id });
+    const user = await sanityFetch<any>(AUTHOR_BY_ID_QUERY, { id });
 
     if (!user) return notFound();
 
@@ -69,16 +67,9 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
           <div className="flex-1 flex flex-col gap-5 lg:-mt-5">
             <div className="flex-between">
               <p className="text-30-bold !text-blue-500">
-                {session?.id === id ? "Your" : `${user.name}'s`} Startups
+                {user.name}'s Startups
               </p>
-              {session?.id === id && (
-                <Button asChild>
-                  <LoadingLink href={`/user/${id}/edit`}>
-                    <PencilIcon className="size-4 mr-2" />
-                    Edit Profile
-                  </LoadingLink>
-                </Button>
-              )}
+              <EditUserButton userId={id} />
             </div>
             <ul className="card_grid-sm">
               <Suspense
